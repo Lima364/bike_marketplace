@@ -41,6 +41,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'name'=> 'boolean'
     ];
+
+    public function store()
+    {
+    	return $this->hasOne(Store::class);
+    }
 }
 
 
@@ -51,11 +56,14 @@ class User extends Authenticatable
 
 // Isto será representado via Model no Eloquent - 
 
-public function store(){
-    return $this->hasOne(Store::class);
-    // return $this->hasOne(Store::class, 'nome_diferente de user_id');
-    // este segundo parametro é para ser usado caso o nome id esteja diferente do qual o laravel
-    // tenha criado.
+// public function store(){
+//     return $this->hasOne(Store::class);
+//     // return $this->hasOne(Store::class, 'nome_diferente de user_id');
+//     // este segundo parametro é para ser usado caso o nome id esteja diferente do qual o laravel
+//     // tenha criado.
 
-}
+// }
 
+
+
+    

@@ -65,11 +65,88 @@ Route::get('/model', function () {
     // dd($user);
 
     // return \App\User::paginate(10);
+
+    // como eu faria pra pegar a loja de um usuario
+    // $user = \App\User::find(4)
+
+    // dd($user->store()->count()); //o objeto único  (Store) se for Collection de Dados(Objetos)
+  
+    // pegar os produtos de uma loja 
+    // $loja = \App\Store::find(1);
+    //return $loja->products(); $loja->products()->where('id,1')->get();   
+
+    // criar uma loja para um usuário
+    // $user = \App\User::find(10);
+    // $store = $user->store()->create([
+    //     'name' => 'Lota Teste',
+    //     'description' => 'LOja teste de produtos de informática',
+    //     'mobile_phone' => 'xx-xxxxx-xxxx',
+    //     'phone' => 'xx-xxxxx-xxxx',
+    //     'slug' => 'loja-teste'
+
+
+    // ]);
+
+    // dd($store);
+
+    //posso acessar a ligacao store
+
+    // criar um produto para uma loja
+    // $store = \App\Store::find(23);
+    // $product = $store->products()->create([
+    //     'name' => 'NoteBook Dell',
+    //     'description' => 'Core I5 10 GB',
+    //     'body' => 'qq coisa ..........................',
+    //     'price' => 2999.90,
+    //     'slug' => 'notebook-dell'
+    // ]);
+
+    // dd($product);
+
+
+
+    // criar uma categoria 
+    // $category = \App\Category::create([
+    //     'name' => 'Games',
+    //     'description' => null,
+    //     'slug' => 'games'
+    // ]);
+
+    // $category = \App\Category::create([
+    //     'name' => 'NoteBook',
+    //     'description' => null,
+    //     'slug' => 'notebook'
+    // ]);
+
+    // return \App\Category::all();
+
+
+
+    // adicionar um produto para uma categoria ou vice e versa
+    $product = \App\Product::find(22);
+
+    dd($product->categories()->attach([1])); // adicionado na base
+    // para remover se usa o detach
+
+    //** a melhor opçao é usar o sync pq se ele não tem nada ele coloca e se já tiver ele tira */
+
     return \App\User::all();
+
+
+
+
+
+
+
 });
 
+//pegar as lojas de uma categorias de uma loja
+// $categoria = \App\Category::find(1);
+// $categoria->products;
 
-Route::get('/model', function () {
+// Route::get('/model', function () {
+    
+
 
     // $products = \App\Product::all(); //select *from products
     // return $products;
@@ -93,7 +170,35 @@ Route::get('/model', function () {
 
 
 
-  
-    
 
+// });
+
+
+// o laravel irá responder diretamente para as rotas:
+//Route::get
+//Route::post
+//Route::put
+//Route::patch
+//Route::delete
+//Route::options
+
+
+
+Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function()
+{
+    Route::prefix('stores')->name('stores.')->group(function()
+    {
+        Route::get('/', 'StoreController@index')->name('index');
+        Route::get('/create', 'StoreController@create')->name('create');
+        // aqui deixa de ser get e passa a ser post porque vem do formulário    
+        Route::post('/store', 'StoreController@store')->name('store'); 
+   
+        Route::get('/{store}/edit', 'StoreController@edit')->name('edit');
+        Route::post('update/{store}', 'StoreController@update')->name('update'); 
+
+        Route::get('/destroy/{store}', 'StoreController@destroy')->name('destroy');
+    });
+
+    Route::resource('products', 'ProcuctController');
+ 
 });
