@@ -35,16 +35,16 @@ class User extends Authenticatable
      */
     // protected $casts = [
     //     'email_verified_at' => 'datetime',
-        
+
     // ];
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'name'=> 'boolean'
+        // 'name'=> 'boolean'
     ];
 
     public function store()
     {
-    	return $this->hasOne(Store::class);
+        return $this->hasOne(Store::class);
     }
 }
 
@@ -63,7 +63,3 @@ class User extends Authenticatable
 //     // tenha criado.
 
 // }
-
-
-
-    

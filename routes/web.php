@@ -123,9 +123,9 @@ Route::get('/model', function () {
 
 
     // adicionar um produto para uma categoria ou vice e versa
-    $product = \App\Product::find(22);
+    $product = \App\Product::find();
 
-    dd($product->categories()->attach([1])); // adicionado na base
+    dd($product->categories()->attach([])); // adicionado na base
     // para remover se usa o detach
 
     //** a melhor opçao é usar o sync pq se ele não tem nada ele coloca e se já tiver ele tira */
@@ -184,21 +184,29 @@ Route::get('/model', function () {
 
 
 
-Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function()
+Route::group(['middleware'=>['auth']], function()
 {
-    Route::prefix('stores')->name('stores.')->group(function()
+    Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function()
     {
-        Route::get('/', 'StoreController@index')->name('index');
-        Route::get('/create', 'StoreController@create')->name('create');
-        // aqui deixa de ser get e passa a ser post porque vem do formulário    
-        Route::post('/store', 'StoreController@store')->name('store'); 
+        // Route::prefix('stores')->name('stores.')->group(function()
+        // {
+        //     Route::get('/', 'StoreController@index')->name('index');
+        //     Route::get('/create', 'StoreController@create')->name('create');
+        //     // aqui deixa de ser get e passa a ser post porque vem do formulário    
+        //     Route::post('/store', 'StoreController@store')->name('store'); 
    
-        Route::get('/{store}/edit', 'StoreController@edit')->name('edit');
-        Route::post('update/{store}', 'StoreController@update')->name('update'); 
+       //     Route::get('/{store}/edit', 'StoreController@edit')->name('edit');
+        //     Route::post('update/{store}', 'StoreController@update')->name('update'); 
 
-        Route::get('/destroy/{store}', 'StoreController@destroy')->name('destroy');
-    });
-
-    Route::resource('products', 'ProcuctController');
+        //     Route::get('/destroy/{store}', 'StoreController@destroy')->name('destroy');
+        // });
+        // linhas comentadas acima pq haverá um resource 
+        Route::resource('stores', 'StoreController');
+        Route::resource('products', 'ProductController');
  
+    });
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
