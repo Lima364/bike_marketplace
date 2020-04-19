@@ -18,7 +18,7 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
-
+    /* Trade de autenticação*/
     use AuthenticatesUsers;
 
     /**
@@ -26,7 +26,8 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/admin/products';
 
     /**
      * Create a new controller instance.
@@ -35,6 +36,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
+        /* só acesso logout se estiver logado*/
         $this->middleware('guest')->except('logout');
     }
 }

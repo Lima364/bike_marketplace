@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<a href="{{route('admin.stores.create')}}" class="btn btn-lg btn-success">Criar Loja</a>
+@if(!$store)
+    <a href="{{route('admin.stores.create')}}" class="btn btn-lg btn-success">Criar Loja</a>
+@endif
 <table class="table table-striped">
     <thead>
         <tr>
@@ -11,12 +13,10 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($stores as $store)
         <tr>
             <td>{{$store->id}}</td>
             <td>{{$store->name}}</td>
             <td>
-                
                 <div class="btn-group">
                     <a href="{{route('admin.stores.edit', ['store'=> $store->id])}}" class="btn btn-sm btn-primary">EDITAR</a>
                     <form action="{{route('admin.stores.destroy', ['store'=> $store->id])}}" method="post">
@@ -28,10 +28,14 @@
             </td>
         </tr>
 
-        @endforeach
     </tbody>
 </table>
 
-{{$stores->links()}}
+<!-- {{$store->links()}} este paginate não será mais preciso -->
+<!-- @foreach($store as $store)  -->
+<!-- @endforeach -->
+
 
 @endsection
+
+<!-- tirado foreach porque se apresentará apenas uma loja por user -->
