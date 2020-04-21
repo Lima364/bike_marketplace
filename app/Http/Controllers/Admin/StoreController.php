@@ -10,6 +10,12 @@ use App\Http\Requests\StoreRequest;
 
 class StoreController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('user.has.store')->only(['create', 'store']);
+
+    }
+
     public function index()
     {
         // $stores = \App\Store::all();
@@ -25,6 +31,13 @@ class StoreController extends Controller
 
     public function create()
     {
+        /** if levado para o UserHasStoreMiddleware */
+        // if(auth()->user()->store()->count())
+        // {
+        // flash('Voce já possui uma loja cadastrada!')->warning();
+        // return redirect()->route('admin.stores.index');
+            
+        // }
         $users = \App\User::all(['id', 'name']);
         return view('admin.stores.create', compact('users'));
     }

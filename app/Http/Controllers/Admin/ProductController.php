@@ -35,8 +35,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $stores = \App\Store::all(['id', 'name']); // não precisarei disso depois pq só usuário autenticado é que pode incluir produtos 
-        return view('admin.products.create', compact('stores'));
+     /**    $stores = \App\Store::all(['id', 'name']); não precisarei disso depois pq só usuário autenticado é que pode incluir produtos */
+        $categories = \App\Category::all(['id', 'name']);
+        return view('admin.products.create', compact('categories'));
         
     }
 
@@ -50,8 +51,16 @@ class ProductController extends Controller
     {
         $data=$request->all();
 
-        $store = \App\Store::find($data['store']);
-        $store->products()->create($data);
+        // $store = \App\Store::find($data['store']); trocado pela associação abaixo
+        /** estou acessando a loja do usuário autenticado */
+        $store = auth()->user()->store;
+        /** por meio desta loja eu crio o produto pra esta loja - o método 'create' retorna um objeto populado
+         * com as informações deste produto criado inclusive com o 'id' - na variável 'produto' eu pego a ligação
+         * deste produto com categoria e fazer o save destas categorias para este produto fazendo as ligações na
+         * tabela intermediária
+         */
+        $product = $store->products()->create($data);
+        $product->categories()->sync($data['categories']);
 
         flash('Produto Criado com Sucesso!')->success();
         return redirect()->route('admin.products.index');
@@ -76,7 +85,8 @@ class ProductController extends Controller
     public function edit($product)
     {
         $product = $this->product->findOrFail($product);
-        return view('admin.products.edit', compact('product'));
+        $categories = \App\Store::all(['id', 'name']);
+        return view('admin.products.edit', compact('product', 'categories'));
         
     }
 

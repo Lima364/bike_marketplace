@@ -63,3 +63,16 @@ class User extends Authenticatable
 //     // tenha criado.
 
 // }
+
+
+/* complemento a ser utilizado depois* */
+// public function orders()
+//     {
+//     	return $this->hasMany(UserOrder::class);
+//     }
+
+//     public function routeNotificationForNexmo($notification)
+//     {
+//     	$storeMobilePhoneNumber = trim(str_replace(['(', ')', ' ', '-'], '', $this->store->mobile_phone));
+//     	return '55' . $storeMobilePhoneNumber;
+//     }

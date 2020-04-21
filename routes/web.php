@@ -194,6 +194,7 @@ Route::group(['middleware' => ['auth']], function () {
         // linhas comentadas acima pq haverá um resource 
         Route::resource('stores', 'StoreController');
         Route::resource('products', 'ProductController');
+        Route::resource('categories', 'CategoryController');
     });
 });
 
