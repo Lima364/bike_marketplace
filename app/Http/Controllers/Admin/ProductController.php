@@ -23,7 +23,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products =  $this->product->paginate(5);
+        $userStore = auth()->user()->store;
+        $products = $userStore->products()->paginate(10);
+      /**   // $products =  $this->product->paginate(5); - linha substituida pela de cima */
         return view('admin.products.index', compact('products'));
         
     }
@@ -48,7 +50,19 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(ProductRequest $request)
-    {
+    {   
+        $images = $request->file('photos');
+        foreach($images as $image)
+        {   // metodo chamado 'store' que recebe o nome da pasta que quero armazenar a foto pasta 
+            // 'products' e onde quero armazenar esta pasta que será o disco escolhido 'public'
+            // criará dentro da pasta 'storage/app/public em uma pasta 'products' com este arquivo
+            
+
+            
+            $images->store('products', 'public');
+        }
+
+        // dd($request->file('photos'));
         $data=$request->all();
 
         // $store = \App\Store::find($data['store']); trocado pela associação abaixo
@@ -104,7 +118,7 @@ class ProductController extends Controller
         // $data = request->all();
         $product = $this->product->find($product);
         $product->update($data);
-
+        $product->categories()->sync($data['categories']);
         flash('Produto Atualizado com Sucesso!')->success();
         return redirect()->route('admin.products.index');
     }
