@@ -4,6 +4,21 @@
 @section('content')
     <h1>Criar Produto</h1>
     <!-- 'enctype="multipart/form-data"' permite que a foto seja trazida sem sofrer alterações  -->
+
+    {{--  <div class="form-group">
+            <label>Nome Produto</label>
+            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}">
+
+            @error('name')
+            <div class="invalid-feedback">
+                {{$message}}
+            </div>
+            @enderror
+        </div> --}} 
+
+
+
+
     <form action="{{route('admin.products.store')}}" method="post" enctype="multipart/form-data">
         @csrf
 
