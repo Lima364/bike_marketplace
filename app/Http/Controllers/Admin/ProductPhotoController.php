@@ -28,7 +28,7 @@ class ProductPhotoController extends Controller
 
         // dd($removePhoto); //se tiver resultado, apaga essa linha e executa com o proximo dd
         
-        $productId = $removePhoto->first()->product_Id;
+        $productId = $removePhoto->first()->product_id;
 
         // dd($productId ); //se tiver o id o erro ta em outro local
 

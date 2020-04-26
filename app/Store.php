@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Store extends Model
 {
-    protected $fillable = ['name', 'description', 'phone', 'mobile_phone', 'slug'];
+    protected $fillable = ['name', 'description', 'phone', 'mobile_phone', 'slug', 'logo'];
 
     // em caso de se usar um nome de tabela diferente
     // protected $table = 'nome do arquivo';
