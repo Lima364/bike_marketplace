@@ -43,10 +43,11 @@
         @enderror
     </div>
 
-    <div class="form-group">
+    <!-- substituido pelo Slugable -->
+    <!-- <div class="form-group">
         <label>Slug</label>
         <input type="text" name="slug" class="form-control" value="{{$store->slug}}">
-    </div>
+    </div> -->
 
     <!-- usuário tem uma loja só por isso não preciso desta div do usuário - não irei editar usuário
 apenas as informações da loja -->

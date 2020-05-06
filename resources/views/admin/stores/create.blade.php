@@ -2,7 +2,7 @@
 
 @section('content')
 <h1>Criar Loja</h1>
-<form action="{{route('admin.stores.store')}}" method="post" enctype = "multipart/form-data">
+<form action="{{route('admin.stores.store')}}" method="post" enctype="multipart/form-data">
     <input type="hidden" name="_token" value="{{csrf_token()}}"> <!-- substituido tambem pelo @csrf -->
     <!-- @csrf -->
     <!-- @method("PUT") -->
@@ -51,16 +51,17 @@
         <label>Fotos do Produto</label>
         <input type="file" name="logo" class="form-control  @error('logo') is-invalid @enderror">
         @error('logo')
-            <div class="invalid-feedback">
-                {{$message}}
-            </div>
+        <div class="invalid-feedback">
+            {{$message}}
+        </div>
         @enderror
     </div>
 
-    <div class="form-group">
+    <!-- substituido pelo Slugable -->
+    <!-- <div class="form-group">
         <label>Slug</label>
         <input type="text" name="slug" class="form-control">
-    </div>
+    </div> -->
 
     <!-- retirado este select do usuário após altercação no Store Controller para puxar
     o usuário direto -->

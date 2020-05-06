@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MarketPlace L6</title>
+    <title>MarketPlace</title>
     <!-- <link rel="stylesheet" href="style.css"></link>  -->
     <!-- para chamada de um css externo -->
 
@@ -50,6 +50,7 @@
                     <li class="nav-item">
                         <span class="nav-link">{{auth()->user()->nome}}</span>
                     </li>
+            
                 </ul>
             </div>
             @endauth

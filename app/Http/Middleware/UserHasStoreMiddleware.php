@@ -17,9 +17,21 @@ class UserHasStoreMiddleware
     {
         if(auth()->user()->store()->count())
         {
+            
         flash('Voce já possui uma loja cadastrada!')->warning();
         return redirect()->route('admin.stores.index');
         }
         return $next($request);
     }
+
+    // public function handle($request, Closure $next)
+    // {
+    //     $condition = auth()->user()->store;
+    //     if(!is_null($condition)){
+    //         flash('Você ja possui uma loja!')->warning();
+    //         return redirect()->route('admin.stores.index');
+    //     }
+        
+    //     return $next($request);
+    // }
 }

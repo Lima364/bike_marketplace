@@ -17,17 +17,109 @@
 
 // use Illuminate\Routing\Route;
 
-Route::get('/', function () {
-    $helloWorld = "Hello World";
-    return view('welcome', ["helloWorld" => "$helloWorld"]);
-})->name('home');
+Route::get('/', 'HomeController@index')->name('home');
+// {
+//     $helloWorld = "Hello World";
+//     return view('welcome', compact('helloWorld'));
+// })->name('home');
+
+
+// Route::get('/', function () {
+//     $helloWorld = "Hello World";
+//     return view('welcome', ["helloWorld" => "$helloWorld"]);
+// })->name('home');
 
 // Route::get('/model', function(){
 //     $products = \App\Product::all(); // tradução select * from products
 //     return $products;
 // });
 
-Route::get('/model', function () {
+Route::get('/product/{slug}', 'HomeController@single')->name('product.single');
+
+// Route::prefix('cart')->name('cart.')->group(function(){})
+
+Route::prefix('cart')->name('cart.')->group(function()
+{
+    Route::get('/', 'CartController@index')->name('index');
+    Route::post('add', 'CartController@add')->name('add');
+});
+
+
+//pegar as lojas de uma categorias de uma loja
+// $categoria = \App\Category::find(1);
+// $categoria->products;
+
+// Route::get('/model', function () {
+
+
+
+// $products = \App\Product::all(); //select *from products
+// return $products;
+// // descrito abaixo é o AR active record - Esta é uma das formas que voce pode utilizar pra criar o seu dado, para inserção de dados
+
+// $user = new \App\User();
+// $user->name = '';
+// $user->email = '';
+// $user->password = bcrypt('12345678');
+// $user->save();
+
+
+// return $user->save(); // esta função retorna um booleano
+//\App\user::all() - retorna todos os usuários
+//\App\user::find() - retorna o usuário baseado no id
+
+// return \App\User::where('name', 'Cristede....')->get(); // select * from users where 'name' seja igual a condicional
+// // esta query com condição eu preciso pegar com método 'get'
+
+// return \App\User::where('name', 'Cristede....')->first(); // select * from users where 'name' seja igual a condicional mas só o primeiro
+
+
+
+
+// });
+
+
+// o laravel irá responder diretamente para as rotas:
+//Route::get
+//Route::post
+//Route::put
+//Route::patch
+//Route::delete
+//Route::options
+
+
+
+Route::group(['middleware' => ['auth']], function () 
+{
+    Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () 
+    {
+        // Route::prefix('stores')->name('stores.')->group(function()
+        // {
+        //     Route::get('/', 'StoreController@index')->name('index');
+        //     Route::get('/create', 'StoreController@create')->name('create');
+        //     // aqui deixa de ser get e passa a ser post porque vem do formulário    
+        //     Route::post('/store', 'StoreController@store')->name('store'); 
+
+        //     Route::get('/{store}/edit', 'StoreController@edit')->name('edit');
+        //     Route::post('update/{store}', 'StoreController@update')->name('update'); 
+
+        //     Route::get('/destroy/{store}', 'StoreController@destroy')->name('destroy');
+        // });
+        // linhas comentadas acima pq haverá um resource 
+        Route::resource('stores', 'StoreController');
+        Route::resource('products', 'ProductController');
+        Route::resource('categories', 'CategoryController');
+        Route::post('photos/remove', 'ProductPhotoController@removePhoto')->name('photo.remove');
+    });
+});
+
+Auth::routes();
+//após atualização do app.blade no menu estou tirando esta rota abaixo - usarei a rota home lá de cima
+// Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::get('/model', function () 
+{
     // $products = \App\Product::all(); // tradução select * from products
 
     // $user = new \App\User();
@@ -125,80 +217,10 @@ Route::get('/model', function () {
     // adicionar um produto para uma categoria ou vice e versa
     $product = \App\Product::find();
 
-    dd($product->categories()->attach([])); // adicionado na base
+    // dd($product->categories()->attach([])); // adicionado na base
     // para remover se usa o detach
 
     //** a melhor opçao é usar o sync pq se ele não tem nada ele coloca e se já tiver ele tira */
 
     return \App\User::all();
 });
-
-//pegar as lojas de uma categorias de uma loja
-// $categoria = \App\Category::find(1);
-// $categoria->products;
-
-// Route::get('/model', function () {
-
-
-
-// $products = \App\Product::all(); //select *from products
-// return $products;
-// // descrito abaixo é o AR active record - Esta é uma das formas que voce pode utilizar pra criar o seu dado, para inserção de dados
-
-// $user = new \App\User();
-// $user->name = '';
-// $user->email = '';
-// $user->password = bcrypt('12345678');
-// $user->save();
-
-
-// return $user->save(); // esta função retorna um booleano
-//\App\user::all() - retorna todos os usuários
-//\App\user::find() - retorna o usuário baseado no id
-
-// return \App\User::where('name', 'Cristede....')->get(); // select * from users where 'name' seja igual a condicional
-// // esta query com condição eu preciso pegar com método 'get'
-
-// return \App\User::where('name', 'Cristede....')->first(); // select * from users where 'name' seja igual a condicional mas só o primeiro
-
-
-
-
-// });
-
-
-// o laravel irá responder diretamente para as rotas:
-//Route::get
-//Route::post
-//Route::put
-//Route::patch
-//Route::delete
-//Route::options
-
-
-
-Route::group(['middleware' => ['auth']], function () {
-    Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
-        // Route::prefix('stores')->name('stores.')->group(function()
-        // {
-        //     Route::get('/', 'StoreController@index')->name('index');
-        //     Route::get('/create', 'StoreController@create')->name('create');
-        //     // aqui deixa de ser get e passa a ser post porque vem do formulário    
-        //     Route::post('/store', 'StoreController@store')->name('store'); 
-
-        //     Route::get('/{store}/edit', 'StoreController@edit')->name('edit');
-        //     Route::post('update/{store}', 'StoreController@update')->name('update'); 
-
-        //     Route::get('/destroy/{store}', 'StoreController@destroy')->name('destroy');
-        // });
-        // linhas comentadas acima pq haverá um resource 
-        Route::resource('stores', 'StoreController');
-        Route::resource('products', 'ProductController');
-        Route::resource('categories', 'CategoryController');
-        Route::post('photos/remove', 'ProductPhotoController@removePhoto')->name('photo.remove');
-    });
-});
-
-Auth::routes();
-//após atualização do app.blade no menu estou tirando esta rota abaixo - usarei a rota home lá de cima
-// Route::get('/home', 'HomeController@index')->name('home');

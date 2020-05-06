@@ -1,3 +1,6 @@
+<!-- foi gerado na pasta errada e eu anão quis deletar - ´so no finald do projeto. -->
+
+
 <?php
 
 namespace App\Http\Controllers\Admin;

@@ -3,19 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Product;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    private $product;
+
+    public function __construct(Product $product)
     {
-        $this->middleware('auth'); /*verifica se o usuário está logado ou não - o middleware 
-        é um meio pra esta verificação acontecer*/
+        $this->product = $product;
     }
+    // /**
+    //  * Create a new controller instance.
+    //  *
+    //  * @return void
+    //  */
+    // public function __construct()
+    // {
+    //     $this->middleware('auth'); /*verifica se o usuário está logado ou não - o middleware 
+    //     é um meio pra esta verificação acontecer*/
+    // }
 
     /**
      * Show the application dashboard.
@@ -24,13 +31,24 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $products = $this->product->limit(8)->orderBy('id', 'DESC')->get();
+        // dd($products);
+        return view('welcome', compact('products'));
+        // return view('home');
     }
+
+    public function single($slug)
+    {
+        /**uso no where Slug com letra maiuscula pq o Laravel já entende que é o campo */
+        $product = $this->product->whereSlug($slug)->first;
+        return view('single', compact('product'));
+        // print $slug;
+    } 
 }
 
 /* 
 Middlewares: Dentro de aplicações web, ele é um código ou programa que é executado entre
-a requisição (Request) e a nossa aplicação - é a lógica executada pelo acesso a uma determinada
+a requisição (Request) e a aplicação - é a lógica executada pelo acesso a uma determinada
 rota.
 
 Aplicação <- Marketplace
@@ -41,7 +59,7 @@ Request -> Middleware -> aplicação -acesso qualquer rota - <- Marketplace
 
 
 
-/* O que que é o middleware na verdade - então middleware a gente tem aqui a 
+/* O que que é o middleware na verdade - middleware a gente tem aqui a 
 nossa aplicação que é o Marketplace. E tem na arquitetura web uma request que 
 aponta para a nossa aplicação. Toda vez que acesso qualquer ponto da aplicação 
 ou seja, acesso qualquer rota, eu estarei fazendo uma request, estarei fazendo 

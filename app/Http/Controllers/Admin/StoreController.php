@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use \App\User;
+use App\Store;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreRequest;

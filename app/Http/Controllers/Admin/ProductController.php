@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use \App\Product;
+use \App\Store;
 use \App\Http\Requests\ProductRequest;
 use App\Traits\UploadTrait;
 
@@ -28,6 +29,7 @@ class ProductController extends Controller
     public function index()
     {
         $userStore = auth()->user()->store;
+        // dd($userStore);
         $products = $userStore->products()->paginate(10);
       /**   // $products =  $this->product->paginate(5); - linha substituida pela de cima */
         return view('admin.products.index', compact('products'));
@@ -69,6 +71,7 @@ class ProductController extends Controller
 
         // dd($request->file('photos'));
         $data=$request->all();
+        $categories = $request->get('categories', null);
 
         // $store = \App\Store::find($data['store']); trocado pela associação abaixo
         /** estou acessando a loja do usuário autenticado */
@@ -79,7 +82,7 @@ class ProductController extends Controller
          * tabela intermediária
          */
         $product = $store->products()->create($data);
-        $product->categories()->sync($data['categories']);
+        $product->categories()->sync($categories);
 
         if($request->hasFile('photos'))
         {
@@ -132,10 +135,15 @@ class ProductController extends Controller
     {
         $data = $request->all();
         // $data = request->all();
+        $categories = $request->get('categories', null);
+
         $product = $this->product->find($product);
         $product->update($data);
-        $product->categories()->sync($data['categories']);
 
+        if(!is_null($categories))
+        {
+        $product->categories()->sync($categories);
+        }
         if($request->hasFile('photos'))
         {
             $images = $this->imageUpload($request->file('photos'), 'image');
