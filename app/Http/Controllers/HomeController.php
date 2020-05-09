@@ -31,7 +31,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $products = $this->product->limit(8)->orderBy('id', 'DESC')->get();
+        $products = $this->product->limit(9)->orderBy('id', 'DESC')->get();
         // dd($products);
         return view('welcome', compact('products'));
         // return view('home');
@@ -40,7 +40,7 @@ class HomeController extends Controller
     public function single($slug)
     {
         /**uso no where Slug com letra maiuscula pq o Laravel já entende que é o campo */
-        $product = $this->product->whereSlug($slug)->first;
+        $product = $this->product->whereSlug($slug)->first();
         return view('single', compact('product'));
         // print $slug;
     } 

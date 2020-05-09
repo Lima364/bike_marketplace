@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MarketPlace</title>
+    <title>Bike MarketPlace</title>
     <!-- <link rel="stylesheet" href="style.css"></link>  -->
     <!-- para chamada de um css externo -->
 
@@ -16,7 +16,7 @@
 <body>
     <!--  /* troquei o 'navbar-light' pelo 'navbar-dark' e o 'bg-light' pelo bg-dark*/ -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 50px;">
-        <a class="navbar-brand" href="{{route('home')}}">MarketPlace</a>
+        <a class="navbar-brand" href="{{route('home')}}">Bike MarketPlace</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
             <span class="navbar-toggler-icon"></span>
         </button>
