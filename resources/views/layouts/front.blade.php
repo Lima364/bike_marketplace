@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Bike MarketPlace</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="{{asset('css/app.css')}}"> -->
     <style>
         .front.row {
             margin-bottom: 40px;
@@ -40,7 +41,7 @@
     
         <ul class="navbar-nav mr-auto">
             <li class="nav-item @if(request()->is('admin/stores*')) active @endif">
-                <a class="nav-link" href="{{route('admin.stores.index')}}">Lojas <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{route('admin.stores.index')}}">Lojas<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item @if(request()->is('admin/products*')) active @endif">
                 <a class="nav-link" href="{{route('admin.products.index')}}">Produtos</a>
@@ -63,9 +64,11 @@
                     <a href="{{route('cart.index')}}" class="nav-link">
                         @if (session()->has('cart'))
                             @php 
-                            // para contar a quantidade comprada independente dos itens
-                            // <!-- <span class="badge badge-danger">{{array_sum(array_column(session()->get('cart'), 'amount'))}}</span> -->
-                            // para contar os itens 
+                                // para contar a quantidade comprada independente dos itens
+                                // <!-- <span class="badge badge-danger">{{array_sum(array_column(session()->get('cart'), 'amount'))}}</span> -->
+                                // implementar depois o total de de produtos comprados
+                                // testar depois - {{array_sum(array_column(session()->get('cart'), 'amount'))}} 
+                                // contador de produtos/itens do carrinho 
                             @endphp
                             <span class="badge badge-danger">{{count(session()->get('cart'))}}</span>
                         @endif
@@ -82,7 +85,6 @@
     @include('flash::message')
     @yield('content')
 </div>
-
 
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" ></script>
     <script src="{{asset('js/app.js')}}"></script>

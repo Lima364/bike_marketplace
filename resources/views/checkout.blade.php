@@ -13,7 +13,7 @@
         <form action="" method="post">
             <div class="row">
                 <div class="col-md-12 form-group">
-                    <label for="">Número do Cartão</label>
+                    <label for="">Número do Cartão <span class="brand"></span></label>
                     <input type="text" class="form-control" name="card_number">
                 </div>
             </div>
@@ -36,19 +36,56 @@
                     <input type="text" class="form-control" name="card_cvv">
                 </div>
             </div>
-            <button class="btnbtn-success btn-lg">Efetuar Pagamento</button>            
+
+            <button class="btnbtn-success btn-lg">Efetuar Pagamento</button>  
+
         </form>
 
     </div>
-    
-
 
 </div>
 
+@endsection
 
+@section('scripts')
+    <script src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>
+    
+    <script>
+        const sessionId = '{{session()->get('pagseguro_session_code')}}';
 
+        PagSeguroDirectPayment.setSessionId(sessionId);
+    </script>
 
+    <script>
+        let cardNumber = document.querySelector('input[name=card_number]');
+        let spanBrand = document.querySelector('span.brand');
 
-
+        cardNumber.addEventListener('keyup', function()
+        {
+            console.log(cardNumber.value);
+            if(cardNumber.value.lenght >= 6)
+            {
+                PagSeguroDirectPayment.getBrand(
+                    {
+                        cardBin: cardNumber.value.substr(0, 6),
+                        success: function(res)
+                        {
+                            let imgFlag = '<img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/${res.brand.name}.png">';
+                            spanBrand.innerHTML = imgFlag;
+                            // console.log(res);
+                        },
+                        error: function(err)
+                        {
+                            console.log(err);
+                        },
+                        complete: function(res)
+                        {
+                            // console.log('Complete' res);
+                        }
+                    });
+            }
+            // console.log(cartNumber.value);
+        });
+    </script>
 
 @endsection

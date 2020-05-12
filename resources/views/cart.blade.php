@@ -7,9 +7,10 @@
             <hr>
         </div>
         <div class="col-12">
+          @php // dd($cart); @endphp
             @if ($cart)
                 <table class="table table-striped">
-                    <thead>
+                    <head>
                         <tr>
                             <th>Produto</th>
                             <th>Preço</th>
@@ -17,11 +18,9 @@
                             <th>Subtotal</th>
                             <th>Ação</th>
                         </tr>
-                    </thead>
+                    </head>
                     <tbody>
-
                         @php $total = 0; @endphp
-
                         @foreach ($cart as $c)
                             <tr>
                                 <td>{{$c['name']}}</td>
