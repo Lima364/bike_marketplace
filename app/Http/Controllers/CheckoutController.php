@@ -22,10 +22,11 @@ class CheckoutController extends Controller
     {
         if(!session()->has('pagseguro_session_code'))
         {
+                // session()->forget('pagseguro_session_code');
                 $sessionCode = \PagSeguro\Services\Session::create(
-                \PagSeguro\Configuration\Configure::getAccountCredentials());
+                    \PagSeguro\Configuration\Configure::getAccountCredentials());
 
-                return session()->put('pagseguro_session_code', $sessionCode->getResult());
+                    return session()->put('pagseguro_session_code', $sessionCode->getResult());
         }
     }
 }

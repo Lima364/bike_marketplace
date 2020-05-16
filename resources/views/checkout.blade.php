@@ -35,6 +35,9 @@
                     <label for="">Código de Segurança</label>
                     <input type="text" class="form-control" name="card_cvv">
                 </div>
+                <div class="col-md-12 installments form-group">
+
+                </div>
             </div>
 
             <button class="btnbtn-success btn-lg">Efetuar Pagamento</button>  
@@ -51,7 +54,10 @@
     <script src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>
     
     <script>
-        const sessionId = '{{session()->get('pagseguro_session_code')}}';
+
+        // Set-Cookie: promo_shown=1; Max-Age=2600000; Secure;
+
+        const sessionId = "{{session()->get('pagseguro_session_code')}}";
 
         PagSeguroDirectPayment.setSessionId(sessionId);
     </script>
@@ -70,9 +76,11 @@
                         cardBin: cardNumber.value.substr(0, 6),
                         success: function(res)
                         {
+                            spanBrand.innerHTML = res.brand.name;
                             let imgFlag = '<img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/${res.brand.name}.png">';
                             spanBrand.innerHTML = imgFlag;
                             // console.log(res);
+                            getInstallments(40, res.brand.name);
                         },
                         error: function(err)
                         {
@@ -86,6 +94,52 @@
             }
             // console.log(cartNumber.value);
         });
+
+        // buscando opções de parcelamento
+        function getInstallments(amount, brand)
+        {
+            PagSeguroDirectPayment.getInstallments(
+                {
+                    amount: amount,
+                    brand: brand,
+                    // será 0 pq não se assumi juros de nada - se fosse tres sem juros seria 3
+                    maxInstallmentNoInterest:0,
+                    success: function(res)
+                    {
+                        let drawSelectInstallments = drawSelectInstallments(res.installments[brand]);
+                        document.querySelector('div.installments').innerHTML = selectInstallments;
+                        // console.log(res);
+                    },
+                    error: function(err)
+                    {
+                        console.log(err);
+                    },
+                    complete: function(res)
+                    {
+
+                    }
+                });
+        }
+
+        function drawSelectInstallments(installments)
+        {
+		let select = '<label>Opções de Parcelamento:</label>';
+
+		select += '<select class="form-control">';
+
+        for(let l of installments)
+        {
+		    select += `<option value="${l.quantity}|${l.installmentAmount}">${l.quantity}x de ${l.installmentAmount} - Total fica ${l.totalAmount}</option>`;
+		}
+
+		select += '</select>';
+
+		return select;
+	}
+
+
+
+
     </script>
 
 @endsection
