@@ -15,6 +15,7 @@
                 <div class="col-md-12 form-group">
                     <label for="">Número do Cartão <span class="brand"></span></label>
                     <input type="text" class="form-control" name="card_number">
+                    <input type="hidden" name="card_brand">
                 </div>
             </div>
 
@@ -40,7 +41,7 @@
                 </div>
             </div>
 
-            <button class="btnbtn-success btn-lg">Efetuar Pagamento</button>  
+            <button class="btnbtn-success btn-lg processCheckout">Efetuar Pagamento</button>  
 
         </form>
 
@@ -52,9 +53,10 @@
 
 @section('scripts')
     <script src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>
-    
-    <script>
+    <script src="{{asset('assets/js/jquery.ajax.js')}}"></script>
 
+
+    <script>
         // Set-Cookie: promo_shown=1; Max-Age=2600000; Secure;
 
         const sessionId = "{{session()->get('pagseguro_session_code')}}";
@@ -79,6 +81,9 @@
                             spanBrand.innerHTML = res.brand.name;
                             let imgFlag = '<img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/${res.brand.name}.png">';
                             spanBrand.innerHTML = imgFlag;
+
+                            document.querySelector('input[name=card_brand]').value = res.brand.name;
+
                             // console.log(res);
                             getInstallments(40, res.brand.name);
                         },
@@ -93,6 +98,27 @@
                     });
             }
             // console.log(cartNumber.value);
+        });
+
+
+        let submitButton = document.querySelector('button.processCheckout')
+
+        submitButton.addEventListener('click', function(event)
+        {
+            event.preventDefault();
+
+            PagSeguroDirectPayment.createCardToken(
+                {
+                    cardNumber:      document.querySelector('input[name=card_number]').value,
+                    brand:           document.querySelector('input[name=card_brand]').value,
+                    cvv:             document.querySelector('input[name=card_cvv]').value,
+                    experitionMonth: document.querySelector('input[name=card_month]').value,
+                    experitionYear:  document.querySelector('input[name=card_year]').value,
+                    success: function(res)
+                    {
+                        console.log(res);
+                    }
+                });
         });
 
         // buscando opções de parcelamento
