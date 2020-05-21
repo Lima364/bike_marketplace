@@ -10,7 +10,14 @@
                 <hr>
             </div>
         </div>
-        <form action="" method="post">
+        <form action="" method="POST">
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <label for="">Nome igual ao do Cartão <span class="brand"></span></label>
+                    <input type="text" class="form-control" name="card_name">
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-12 form-group">
                     <label for="">Número do Cartão <span class="brand"></span></label>
@@ -41,7 +48,7 @@
                 </div>
             </div>
 
-            <button class="btnbtn-success btn-lg processCheckout">Efetuar Pagamento</button>  
+            <button class="btn btn-success btn-lg proccessCheckout" type="submit">Efetuar Pagamento</button>  
 
         </form>
 
@@ -65,27 +72,29 @@
     </script>
 
     <script>
+        let amountTransaction = '{{$cartItems}}';
         let cardNumber = document.querySelector('input[name=card_number]');
         let spanBrand = document.querySelector('span.brand');
 
         cardNumber.addEventListener('keyup', function()
         {
             console.log(cardNumber.value);
-            if(cardNumber.value.lenght >= 6)
+            if(cardNumber.value.length >= 6)
             {
                 PagSeguroDirectPayment.getBrand(
                     {
                         cardBin: cardNumber.value.substr(0, 6),
                         success: function(res)
                         {
+                            let imgFlag = `<img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/${res.brand.name}.png">`;
+
                             spanBrand.innerHTML = res.brand.name;
-                            let imgFlag = '<img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/${res.brand.name}.png">';
                             spanBrand.innerHTML = imgFlag;
 
                             document.querySelector('input[name=card_brand]').value = res.brand.name;
 
                             // console.log(res);
-                            getInstallments(40, res.brand.name);
+                            getInstallments(amountTransaction, res.brand.name);
                         },
                         error: function(err)
                         {
@@ -101,7 +110,7 @@
         });
 
 
-        let submitButton = document.querySelector('button.processCheckout')
+        let submitButton = document.querySelector('button.proccessCheckout')
 
         submitButton.addEventListener('click', function(event)
         {
@@ -116,10 +125,39 @@
                     experitionYear:  document.querySelector('input[name=card_year]').value,
                     success: function(res)
                     {
-                        console.log(res);
+                        // console.log(res);
+                        proccessPayment(res.card.token);                
                     }
                 });
         });
+
+        function proccessPayment(token)
+        {
+            let data = 
+            {
+                card_token: token,
+                hash: PagSeguroDirectPayment.getSenderHash(),
+                installment: document.querySelector('.select_installments').value,
+                card_name: document.querySelector('input[name=card_name]').value,
+                _token: '{{csrf_token()}}'
+            };
+
+            $.ajax(
+            {
+                type: 'POST',
+                url: '{{route("checkout.proccess")}}',
+                data: data,
+                dataType: 'json',
+                success: function(res)
+                {
+                    alert(res.data.message);
+                }
+            });
+        }
+
+
+
+
 
         // buscando opções de parcelamento
         function getInstallments(amount, brand)
@@ -151,7 +189,7 @@
         {
 		let select = '<label>Opções de Parcelamento:</label>';
 
-		select += '<select class="form-control">';
+		select += '<select class="form-control select_installments">';
 
         for(let l of installments)
         {
