@@ -62,4 +62,10 @@
             "@php artisan key:generate --ansi"
         ]
     }
+
+    {
+    "require": {
+       "pagseguro/pagseguro-php-sdk" : "^6.0"
+    }
+}
 }
