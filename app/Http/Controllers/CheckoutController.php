@@ -34,9 +34,10 @@ class CheckoutController extends Controller
         // print 'checkout';
     }
 
-//     public function proccess(Request $request)
-//     {
-//         // dd($request->all());
+    public function proccess(Request $request)
+    {
+        dd($request->all());
+
 //         $dataPost = $request->all();
 
 //         $reference = 'XPTO';
@@ -179,7 +180,7 @@ class CheckoutController extends Controller
 //             ]
 //         ]);
 
-//     }
+    }
 
     private function makePagSeguroSession()
     {
