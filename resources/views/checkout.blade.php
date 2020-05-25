@@ -115,13 +115,17 @@
                     cardNumber:      document.querySelector('input[name=card_number]').value,
                     brand:           document.querySelector('input[name=card_brand]').value,
                     cvv:             document.querySelector('input[name=card_cvv]').value,
-                    experitionMonth: document.querySelector('input[name=card_month]').value,
-                    experitionYear:  document.querySelector('input[name=card_year]').value,
+                    expirationMonth: document.querySelector('input[name=card_month]').value,
+                    expirationYear:  document.querySelector('input[name=card_year]').value,
                     success: function(res)
-                    {
-                        // console.log(res);
-                        proccessPayment(res.card.token);                
-                    }
+                         {
+                            console.log(res);
+                            proccessPayment(res.card.token);                
+                        },
+                    // error: function(err)
+                    //     {
+                    //         console.log(err);
+                    //     }
                 });
         });
         
@@ -131,11 +135,11 @@
             {
                 card_token: token,
                 hash: PagSeguroDirectPayment.getSenderHash(),
-                installment: document.querySelector('.select_installments').value,
-        //         card_name: document.querySelector('input[name=card_name]').value,
-                _token: '{{csrf_token()}}'
-
+                installment: document.querySelector('select.select_installments').value,
+                // card_name: document.querySelector('input[name=card_name]').value,
+                _token: '{{csrf_token()}}',
             };
+          
             $.ajax(
             {
                 type: 'POST',
@@ -149,6 +153,7 @@
                 }
             });
         }
+
         // buscando opções de parcelamento
         function getInstallments(amount, brand)
         {
@@ -163,7 +168,7 @@
                     {
                         let selectInstallments = drawSelectInstallments(res.installments[brand]);
                         document.querySelector('div.installments').innerHTML = selectInstallments;
-                        // console.log(res);
+                        console.log(res);
                     },
                     error: function(err)
                     {
@@ -171,7 +176,7 @@
                     },
                     complete: function(res)
                     {
-                        // console.log(res);
+                        console.log(res);
                     }
                 });
         }
