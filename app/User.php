@@ -54,7 +54,6 @@ class User extends Authenticatable
 
 }
 
-
 // 1:1 - um pra um (usuario e loja)  - aqui trabalharemos com um método hasOne e belongsTo
 // 1:N - um pra muitos (loja e produto) - aqui trabalharemos com um método hasMany e belongsTo
 // N:N - muito pra muitos (produtos e categorias) aqui trabalharemos com um método chamado

@@ -13,7 +13,7 @@
         <form action="" method="POST">
             <div class="row">
                 <div class="col-md-12 form-group">
-                    <label for="">Nome igual ao do Cartão <span class="brand"></span></label>
+                    <label for="">Nome igual ao do Cartão</label>
                     <input type="text" class="form-control" name="card_name">
                 </div>
             </div>
@@ -70,7 +70,7 @@
     </script>
 
     <script>
-        // let amountTransaction = '{{$cartItems}}';
+        let amountTransaction = '{{$cartItems}}';
         let cardNumber = document.querySelector('input[name=card_number]');
         let spanBrand = document.querySelector('span.brand');
         cardNumber.addEventListener('keyup', function()
@@ -87,8 +87,8 @@
                             spanBrand.innerHTML = res.brand.name;
                             spanBrand.innerHTML = imgFlag;
                             document.querySelector('input[name=card_brand]').value = res.brand.name;
-                            // getInstallments(amountTransaction, res.brand.name);
-                            getInstallments(40, res.brand.name);
+                            getInstallments(amountTransaction, res.brand.name);
+                            // getInstallments(40, res.brand.name);
                             
                             // console.log(res);
                         },
@@ -136,7 +136,7 @@
                 card_token: token,
                 hash: PagSeguroDirectPayment.getSenderHash(),
                 installment: document.querySelector('select.select_installments').value,
-                // card_name: document.querySelector('input[name=card_name]').value,
+                card_name: document.querySelector('input[name=card_name]').value,
                 _token: '{{csrf_token()}}',
             };
           
@@ -148,8 +148,8 @@
                 dataType: 'json',
                 success: function(res)
                 {
-                    console.log(res);
-                    // alert(res.data.message);
+                    // console.log(res);
+                    alert(res.data.message);
                 }
             });
         }

@@ -20,7 +20,7 @@ class CreateUserOrderTable extends Migration
             $table->string('reference');
             $table->string('pagseguro_code');
             $table->integer('pagseguro_status');
-            $table->string('items');
+            $table->text('items');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('store_id')->references('id')->on('stores');
