@@ -26,6 +26,5 @@ class AppServiceProvider extends ServiceProvider
         \PagSeguro\Library::initialize();
         \PagSeguro\Library::cmsVersion()->setName("Bike MarketPlace")->setRelease("1.0.0");
         \PagSeguro\Library::moduleVersion()->setName("Bike MarketPlace")->setRelease("1.0.0");
-
     }
 }
