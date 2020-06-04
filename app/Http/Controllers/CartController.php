@@ -15,6 +15,7 @@ class CartController extends Controller
     {
         // dd(session()->get('cart'));  
         $cart = session()->has('cart') ? session()->get('cart') : [];
+        // dd($cart);
         return view('cart', compact('cart'));
     }
 
@@ -29,8 +30,7 @@ class CartController extends Controller
             // return redirect()->route('product.single', ['slug' => $productData['slug']]);
 
         $product = array_merge($productData, 
-                    $product->first(['name', 'price'])->toArray());
-            // $product->first(['name', 'price', 'store_id'])->toArray());
+            $product->first(['name', 'price', 'store_id'])->toArray());
 
         // dd($product);
         // dd(session());

@@ -15,6 +15,9 @@
 
 // use Illuminate\Routing\Route;
 
+use App\Http\Controllers\Admin\NotificationController;
+use Illuminate\Notifications\Notification;
+
 Route::get('/', 'HomeController@index')->name('home');
         
 Route::get('/product/{slug}', 'HomeController@single')->name('product.single');
@@ -38,9 +41,6 @@ Route::prefix('checkout')->name('checkout.')->group(function()
     Route::get('/thanks', 'CheckoutController@thanks')->name('thanks');
 });
 
-       
-
-
 
 Route::group(['middleware'=>['auth']], function() 
 {
@@ -48,16 +48,42 @@ Route::group(['middleware'=>['auth']], function()
 
     Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () 
     {
+        Route::get('notifications', 'NotificationController@notifications')->name('notification.index');
       
         Route::resource('stores', 'StoreController');
         Route::resource('products', 'ProductController');
         Route::resource('categories', 'CategoryController');
         Route::post('photos/remove', 'ProductPhotoController@removePhoto')->name('photo.remove');
+
+        Route::get('orders/my', 'OrdersController@index')->name('orders.my');
     });
 });
 
 Auth::routes();
       
+
+
+Route::get('not', function(){
+    $user = \App\User::find(27);
+
+    //$user->notify(new App\Notifications\StoreReceiveNewOrder());
+
+    //$notification = $user->notifications->first();
+    //$notification->markAsread();
+
+    //$stores = [43, 41, 30];
+    //$stores = \App\Store::whereIn('id', stores)->get();
+    // return $stores;
+
+
+
+    //return $user->readNotifications; ou unreadNotifications
+    //return $user->readNotifications->count(); ou unreadNotifications
+
+});
+
+
+// Route::get('not', function(){$user = \App\User::find(39);
 
 // Route::get('/model', function () 
 // {
@@ -67,3 +93,14 @@ Auth::routes();
 
 //     return \App\User::all();
 // });
+
+        /* Route::prefix('stores')->name('stores.')->group(function(){
+
+            Route::get('/', 'StoreController@index')->name('index');
+            Route::get('/create', 'StoreController@create')->name('create');
+            Route::post('/store', 'StoreController@store')->name('store');
+            Route::get('/{store}/edit', 'StoreController@edit')->name('edit');
+            Route::post('/update/{store}', 'StoreController@update')->name('update');
+            Route::get('/destroy/{store}', 'StoreController@destroy')->name('destroy');
+
+        }); */

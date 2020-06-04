@@ -11,7 +11,8 @@ class UserOrder extends Model
      *
      * @var array
      */
-    protected $fillable = [
+
+     protected $fillable = [
         'reference', 'pagseguro_code', 'pagseguro_status', 'items', 'store_id'
     ];
 
@@ -20,7 +21,8 @@ class UserOrder extends Model
      *
      * @return User
      */
-    public function user()
+
+     public function user()
     {
         return $this->belongsTo(User::class);
     }
@@ -30,7 +32,8 @@ class UserOrder extends Model
      *
      * @return Store
      */
-    public function store()
+
+     public function store()
     {
         return $this->belongsTo(Store::class);
     }
