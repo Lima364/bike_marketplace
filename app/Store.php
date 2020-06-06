@@ -54,10 +54,11 @@ class Store extends Model
      */
     public function notifyStoreOwers(array $storesId = [])
     {
-        $stores = $this::whereIn('id', $storesId)->get();
+        $stores = $this->whereIn('id', $storesId)->get();
 
-        return $stores->map(function($store){
+            $stores->map(function($store){
             return $store->user;
         })->each->notify(new StoreReceiveNewOrder());
     }
 }
+

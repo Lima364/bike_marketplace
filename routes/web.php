@@ -49,6 +49,8 @@ Route::group(['middleware'=>['auth']], function()
     Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () 
     {
         Route::get('notifications', 'NotificationController@notifications')->name('notification.index');
+        Route::get('notifications/read-all', 'NotificationController@readAll')->name('notifications.read.all');
+
       
         Route::resource('stores', 'StoreController');
         Route::resource('products', 'ProductController');
@@ -64,35 +66,47 @@ Auth::routes();
 
 
 Route::get('not', function(){
-    $user = \App\User::find(27);
+    // $user = \App\User::find(27);
 
     //$user->notify(new App\Notifications\StoreReceiveNewOrder());
 
-    //$notification = $user->notifications->first();
-    //$notification->markAsread();
+    // $notification = $user->notifications->first();
+    // $notification->markAsread();
+    // $notification = $user->unreadNotifications->first();
 
-    //$stores = [43, 41, 30];
-    //$stores = \App\Store::whereIn('id', stores)->get();
-    // return $stores;
+    // $stores = [27, 30];
+    // $stores = \App\Store::whereIn('id', $stores)->get();
+    // // return $stores;
+    // // return $stores->each(function($store)
+    // /**com map eu retorno o dono das lojas */
+    // return $stores->map(function($store)
+
+    //     {
+    //         return $store->user;
+    //         // return get_class($store->user);
+
+    //     });
 
 
 
-    //return $user->readNotifications; ou unreadNotifications
-    //return $user->readNotifications->count(); ou unreadNotifications
+    // return $user->unreadNotifications; //ou unreadNotifications
+
+    // return $user->readNotifications; ou unreadNotifications
+    // return $user->readNotifications->count(); //ou unreadNotifications
 
 });
 
 
 // Route::get('not', function(){$user = \App\User::find(39);
 
-// Route::get('/model', function () 
-// {
+Route::get('/model', function () 
+{
     
-//     $product = \App\Product::find();
+    $product = \App\Product::find(27);
+    return $product->categories;
 
-
-//     return \App\User::all();
-// });
+    // return \App\User::all();
+});
 
         /* Route::prefix('stores')->name('stores.')->group(function(){
 
