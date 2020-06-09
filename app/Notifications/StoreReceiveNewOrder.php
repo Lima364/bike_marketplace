@@ -29,7 +29,10 @@ class StoreReceiveNewOrder extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'mail'];
+
+        // return ['database', 'mail', 'nexmo'];
+        // nexmo = sms
     }
 
     /**
@@ -41,9 +44,12 @@ class StoreReceiveNewOrder extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
+                    ->subject('Novo pedido pra voce')
+                    ->greeting('Olá, tudo bem?')
+                    ->line('Voce recebeu um novo pedido na Loja!')
+                    ->action('Ver Pedido', route('admin.orders.my'))
                     ->line('Thank you for using our application!');
+
     }
 
     /**
@@ -57,6 +63,16 @@ class StoreReceiveNewOrder extends Notification
         return [
             'message' => 'Voce tem um novo pedido solicitado'
         ];
+    }
+
+    public function toNexmo($notifiable)
+    {
+        return (new NexmoMessage)
+                    ->content('Voce recebeu um novo pedido em nosso site.')
+                    ->from('5511999415551')
+                    -unicode()
+                    ;
+                    
     }
 
     // public function toDataBase()

@@ -5,10 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bike MarketPlace</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <!-- <link rel="stylesheet" href="style.css"></link>  -->
     <!-- para chamada de um css externo -->
 
-    <link rel="stylesheet" href="{{asset('css/app.css')}}"></link>
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
 
 </head>
 
@@ -40,6 +42,12 @@
 
             <div class="my-2 my-lg-0">
                 <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a href="{{route('admin.notifications.index')}}" class="nav-link">
+                            <span class="badge badge-danger">{{auth()->user()->unreadNotifications->count()}}</span>
+                            <i class="fa fa-bell"></i>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <!-- <a class="nav-link" href="#">Sair</a> -->
                         <!-- quando eu clicar neste botão (propriedade onclick) vou procurar aqui a classe logout
