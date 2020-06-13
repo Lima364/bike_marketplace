@@ -10,7 +10,6 @@ use App\Notifications\StoreReceiveNewOrder;
 class Store extends Model
 { 
     use HasSlug;
-    
     protected $fillable = ['name', 'description', 'phone', 'mobile_phone', 'slug', 'logo'];
 
     /**
@@ -39,8 +38,11 @@ class Store extends Model
     public function orders()
     {
         // return $this->belongsToMany(UserOrder::class);
-        return $this->belongsToMany(UserOrder::class, 'order_store', 'store_id', 'order_id');
+        return $this->belongsToMany(UserOrder::class, 'order_store', null, 'order_id');
+        /** talvez eu troque o store_id pelo null - acabei trocando*/
+        // return $this->belongsToMany(UserOrder::class, 'order_store', 'null', 'order_id');
     }
+
 
     // public function getSlugOptions() : SlugOptions
     // {
@@ -56,8 +58,9 @@ class Store extends Model
     {
         $stores = $this->whereIn('id', $storesId)->get();
 
-            $stores->map(function($store){
-            return $store->user;
+        $stores->map(function($store)
+        {
+             return $store->user;
         })->each->notify(new StoreReceiveNewOrder());
     }
 }

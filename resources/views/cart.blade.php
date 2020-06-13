@@ -7,10 +7,10 @@
             <hr>
         </div>
         <div class="col-12">
-          @php // dd($cart); @endphp
+          {{-- @php // dd($cart); @endphp --}}
             @if ($cart)
                 <table class="table table-striped">
-                    <head>
+                    <thead>
                         <tr>
                             <th>Produto</th>
                             <th>Preço</th>
@@ -18,7 +18,7 @@
                             <th>Subtotal</th>
                             <th>Ação</th>
                         </tr>
-                    </head>
+                    </thead>
                     <tbody>
                         @php $total = 0; @endphp
                         @foreach ($cart as $c)
@@ -26,6 +26,11 @@
                                 <td>{{$c['name']}}</td>
                                 <td>R${{number_format($c['price'], 2, ',', '.') }}</td>
                                 <td>{{$c['amount']}}</td>
+
+                                {{-- @php
+                                    $subtotal = $c['price'] * $c['amount'];
+                                    $total += $subtotal;
+                                @endphp                      --}}
                                 @php
                                     $total += $c['price'] * $c['amount']
                                 @endphp

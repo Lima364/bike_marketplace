@@ -13,8 +13,8 @@ class UserRegisteredEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private $user;
-
+    // private $user;
+        public $user;
     /**
      * Create a new message instance.
      *
@@ -37,6 +37,6 @@ class UserRegisteredEmail extends Mailable
         ->subject('Conta Criada Com sucesso!')
         ->replyTo('limahakaari@gmail.com')
         ->view('emails.user-registered')
-        ->with([ 'user' => $this->user ]);
+        // ->with([ 'user' => $this->user ]);
     }
 }

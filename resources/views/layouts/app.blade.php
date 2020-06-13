@@ -3,22 +3,25 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> --}}
+ <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">    
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Bike MarketPlace</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <!-- <link rel="stylesheet" href="style.css"></link>  -->
-    <!-- para chamada de um css externo -->
+    {{-- <!-- <link rel="stylesheet" href="style.css"></link>  -->
+    <!-- para chamada de um css externo --> --}}
 
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
 
 </head>
 
 <body>
-    <!--  /* troquei o 'navbar-light' pelo 'navbar-dark' e o 'bg-light' pelo bg-dark*/ -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 50px;">
+    {{-- <!--  /* troquei o 'navbar-light' pelo 'navbar-dark' e o 'bg-light' pelo bg-dark*/ --> --}}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 40px;">
         <a class="navbar-brand" href="{{route('home')}}">Bike MarketPlace</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -28,9 +31,9 @@
                 <li class="nav-item @if(request()->is('admin/orders*')) active @endif">
                     <a class="nav-link" href="{{route('admin.orders.my')}}">Meus Pedidos</a>
                 </li>
-            <!-- este asterisco colocado após o stores e products diz ao request que ele precisa retornar verdadeiro -->
+            {{-- <!-- este asterisco colocado após o stores e products diz ao request que ele precisa retornar verdadeiro --> --}}
                 <li class="nav-item @if(request()->is('admin/stores*')) active @endif">
-                    <a class="nav-link" href="{{route('admin.stores.index')}}">Loja</a>
+                    <a class="nav-link" href="{{route('admin.stores.index')}}">Loja<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item @if(request()->is('admin/products*')) active @endif">
                     <a class="nav-link" href="{{route('admin.products.index')}}">Produtos</a>
@@ -49,11 +52,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <!-- <a class="nav-link" href="#">Sair</a> -->
+                        {{-- <!-- <a class="nav-link" href="#">Sair</a> -->
                         <!-- quando eu clicar neste botão (propriedade onclick) vou procurar aqui a classe logout
-                    e faço um 'submit' e o 'form' será enviado pra rota logout usando o método 'POST'-->
-                        <a class="nav-link" href="#" onclick="event.preventDefault(); document.querySelector('form.logout').submit()" ;>Sair</a>
-                        <form action="{{route('logout')}}" class="logout" method="POST" style="display:none; ">
+                    e faço um 'submit' e o 'form' será enviado pra rota logout usando o método 'POST'--> --}}
+                        <a class="nav-link" href="#" onclick="event.preventDefault(); document.querySelector('form.logout').submit();">Sair</a>
+                        <form action="{{route('logout')}}" class="logout" method="POST" style="display:none;">
                             @csrf
                         </form>
                     </li>
@@ -71,20 +74,22 @@
         @yield('content')
     </div>
 
-    <!-- <script src="https://code.jquery.com/jquery-2.2.4.min.js" ></script> -->
+    {{-- <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script> --}}
     <script src="{{asset('js/app.js')}}"></script>
+
+    {{-- <script src="https://code.jquery.com/jquery-2.2.4.min.js" ></script> --}}
+    @yield('scripts')
     
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
 </body>
 
 </html>
 
 
-<!-- <li class="nav-item">
-                    <a class="nav-link" href="{{route('admin.products.index')}}">Produtos</a>
-                </li> -->
-<!-- <li class="nav-item dropdown">
+{{-- <!-- <li class="nav-item"> --}}
+                    {{-- <a class="nav-link" href="{{route('admin.products.index')}}">Produtos</a> --}}
+                {{-- </li> --> --}}
+{{-- <!-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Dropdown
                     </a>
@@ -97,4 +102,4 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#">Desativado</a>
-                </li> -->
+                </li> --> --}}

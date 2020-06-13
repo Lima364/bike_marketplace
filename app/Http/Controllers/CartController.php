@@ -30,7 +30,7 @@ class CartController extends Controller
             // return redirect()->route('product.single', ['slug' => $productData['slug']]);
 
         $product = array_merge($productData, 
-            $product->first(['name', 'price', 'store_id'])->toArray());
+            $product->first(['id', 'name', 'price', 'store_id'])->toArray());
 
         // dd($product);
         // dd(session());
@@ -75,9 +75,7 @@ class CartController extends Controller
          public function remove($slug)
          {
              if(!session()->has('cart')) 
-             {
                  return redirect()->route('cart.index');
-             }
      
              $products = session()->get('cart');
      

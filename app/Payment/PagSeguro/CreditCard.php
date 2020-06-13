@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Payment\PagSeguro;
-
 class CreditCard
 {
     private $items;
@@ -32,7 +31,7 @@ class CreditCard
         // Set a reference code for this payment request. It is useful to identify this payment
         // in future notifications.
         /** código gerado por mim */
-        $creditCard->setReference($this->reference);
+        $creditCard->setReference(base64_encode($this->reference));
 
         // Set the currency
         $creditCard->setCurrency("BRL");
@@ -43,7 +42,7 @@ class CreditCard
         {
             // Add an item for this payment request
             $creditCard->addItems()->withParameters(
-                $this->reference,
+                $item['id'],
                 $item['name'],
                 $item['amount'],
                 /** passo apenas o valor unitário e o valor total o pagseguro gera*/

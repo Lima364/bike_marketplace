@@ -8,11 +8,10 @@
     </div>        
 </div>
 
-
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>#</th>
+            {{-- <th>#</th> --}}
             <th>Notificação</th>
             <th>Criado em </th>
             <th>Ações</th>
@@ -21,7 +20,8 @@
     <tbody>
         @forelse($unreadNotifications as $n)
         <tr>
-            <td>{{gettype($n->data['message'])}}</td>
+            <td>{{$n->data['message']}}</td>
+          {{-- <td>{{gettype($n->data['message'])}}</td> --}}
             {{-- <td>{{$n->created_at->format('d/m/Y H:i:s')}}</td> --}}
             <td>{{$n->created_at->locale('pt')->diffForHumans()}}</td>
 

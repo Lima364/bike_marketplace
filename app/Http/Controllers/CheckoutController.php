@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Payment\PagSeguro\CreditCard;
-use Exception;
-use Illuminate\Http\Request;
+use App\Payment\PagSeguro\Notification;
 use App\Store;
+use App\UserOrder;
+use Illuminate\Http\Request;
+use Ramsey\Uuid\Uuid;
+// use Exception;
 
 
 class CheckoutController extends Controller
@@ -45,11 +48,11 @@ class CheckoutController extends Controller
         try
         {
             $dataPost = $request->all();
+            $user = auth()->user();
             $cartItems = session()->get('cart');
             $stores = array_unique(array_column($cartItems, 'store_id'));
-            $reference = 'XPTO';
-            $user = auth()->user();
-    
+            $reference = Uuid::uuid4();
+  
             $creditCardPayment = new CreditCard($cartItems, $user, $dataPost, $reference); 
             $result = $creditCardPayment->doPayment();
             // var_dump($result);
@@ -60,11 +63,11 @@ class CheckoutController extends Controller
                 'pagseguro_code' => $result->getCode(),
                 'pagseguro_status' => $result->getStatus(),
                 'items' => serialize($cartItems),
-                'store_id' => 27
             ];
 
-            $userOrder = $user->orders()->create($userOrder);
-            $userOrder->stores()->sync($stores);
+            userOrder = $user->orders()->create($userOrder);
+		    $userOrder->stores()->sync($stores);
+
 
             /** NOtificar Loja de novo pedido */
             $store = (new Store())->notifyStoreOwers($stores);
@@ -103,6 +106,38 @@ class CheckoutController extends Controller
         return view('thanks');
     }
 
+    public function notification()
+    {
+    	try{
+		    $notification = new Notification();
+            $notification = $notification->getTransaction();
+            
+            //  atualizar o pedido do usuário
+            //  comentários sobre pedido pago.
+             
+
+			$reference = base64_decode($notification->getReference());
+
+		    $userOrder = UserOrder::whereReference($reference);
+		    $userOrder->update([
+			    'pagseguro_status' => $notification->getStatus()
+		    ]);
+
+		    if($notification->getStatus() == 3) {
+			    // Liberar o pedido do usuário..., atualizar o status do pedido para em separação
+			    //Notificar o usuário que o pedido foi pago...
+			    //Notificar a loja da confirmação do pedido...
+		    }
+
+		    return response()->json([], 204);
+
+	    } catch (\Exception $e) {
+			$message = env('APP_DEBUG') ? $e->getMessage() : '';
+
+		    return response()->json(['error' => $message], 500);
+	    }
+    }
+
     private function makePagSeguroSession()
     {
         if(!session()->has('pagseguro_session_code'))
@@ -116,5 +151,35 @@ class CheckoutController extends Controller
                     return session()->put('pagseguro_session_code', $sessionCode->getResult());
         }
     }
+
+    // public function notification()
+    // {
+    // 	try{
+	// 	    $notification = new Notification();
+	// 	    $notification = $notification->getTransaction();
+
+	// 		$reference = base64_decode($notification->getReference());
+
+	// 	    $userOrder = UserOrder::whereReference($reference);
+	// 	    $userOrder->update([
+	// 		    'pagseguro_status' => $notification->getStatus()
+	// 	    ]);
+
+	// 	    if($notification->getStatus() == 3) {
+	// 		    // Liberar o pedido do usuário..., atualizar o status do pedido para em separação
+	// 		    //Notificar o usuário que o pedido foi pago...
+	// 		    //Notificar a loja da confirmação do pedido...
+	// 	    }
+
+	// 	    return response()->json([], 204);
+
+	//     } catch (\Exception $e) {
+	// 		$message = env('APP_DEBUG') ? $e->getMessage() : '';
+
+	// 	    return response()->json(['error' => $message], 500);
+	//     }
+    // }
+
+
 }
 

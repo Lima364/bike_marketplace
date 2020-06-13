@@ -10,6 +10,7 @@ class NotificationController extends Controller
     public function notifications()
     {
         $unreadNotifications = auth()->user()->unreadNotifications;
+
         return view('admin.notifications', compact('unreadNotifications'));
     }
 
@@ -18,7 +19,7 @@ class NotificationController extends Controller
         $unreadNotifications = auth()->user()->unreadNotifications;
         $unreadNotifications->each(function($notification)
         {
-            $notification->markAsRead;
+            $notification->markAsRead();
         });
 
         flash('Notificações lidas com sucesso!')->success();

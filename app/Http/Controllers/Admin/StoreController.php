@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use \App\User;
-use App\Store;
+// use \App\User;
+// use App\Store;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,11 +14,10 @@ use Illuminate\Support\Facades\Storage;
 class StoreController extends Controller
 {
     use UploadTrait;
+
     public function __construct()
     {
         $this->middleware('user.has.store')->only(['create', 'store']);
-        
-
     }
 
     public function index()
@@ -49,7 +48,7 @@ class StoreController extends Controller
 
     public function store(StoreRequest $request)
     {   
-        $data = ($request->all());
+        $data = $request->all();
         /* ao criar a loja irei buscar o usuário autenticado por meio do objeto da autenticação
         eu consigo ter acesso a este objeto por meio da função helper 'auth()' e desta função eu chamo
         um método 'user' que me trará o objeto do usuário que estará autenticado*/
@@ -91,7 +90,6 @@ class StoreController extends Controller
             {
                 Storage::disk('public')->delete($store->logo);
             }
-
             
             $data['logo'] = $this->imageUpload($request->file('logo'));
         }

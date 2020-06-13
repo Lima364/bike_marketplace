@@ -5,6 +5,7 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\NexmoMessage;
 use Illuminate\Notifications\Notification;
 
 class StoreReceiveNewOrder extends Notification
@@ -48,8 +49,7 @@ class StoreReceiveNewOrder extends Notification
                     ->greeting('Olá, tudo bem?')
                     ->line('Voce recebeu um novo pedido na Loja!')
                     ->action('Ver Pedido', route('admin.orders.my'))
-                    ->line('Thank you for using our application!');
-
+                    // ->line('Thank you for using our application!');
     }
 
     /**

@@ -13,7 +13,7 @@ class UserOrder extends Model
      */
 
      protected $fillable = [
-        'reference', 'pagseguro_code', 'pagseguro_status', 'items', 'store_id'
+        'reference', 'pagseguro_status', 'pagseguro_code', 'store_id', 'items'
     ];
 
     /**

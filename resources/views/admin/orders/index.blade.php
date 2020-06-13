@@ -20,13 +20,22 @@
                         </h2>
                     </div>
                     <div id="collapse{{$key}}" class="collapse @if($key ==0) show @endif" aria-labelledby="heading{{$key}}" data-parent="#accordionOrders">
+
                         <div class="card-body">
                             <ul>
                                 @php $items = unserialize($order->items); @endphp
                                 @foreach (filterItemsByStoreId($items, auth()->user()->store->id) as $item)
-                                    <li>{{$item['name']}} | R${{number_format($item['price'], 2, ',', '.')}}</li>
+
+                                <li>
+                                    {{$item['name']}} | R$ {{number_format($item['price'] * $item['amount'], 2, ',', '.')}}
                                     <br>
-                                    Quantidade pedida:{{$item['amount']}}
+                                    Quantidade pedida: {{$item['amount']}}
+                                </li>
+{{-- ver qual das duas eu vou deixar neste <li> --}}
+                                {{-- <li>
+                                {{$item['name']}} | R${{number_format($item['price'], 2, ',', '.')}}</li>
+                                    <br>
+                                    Quantidade pedida:{{$item['amount']}} --}}
                                 @endforeach
                             </ul>
                         </div>
