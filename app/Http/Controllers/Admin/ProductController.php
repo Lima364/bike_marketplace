@@ -24,9 +24,11 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   //dd(auth()->user()->store()->exists());
+    {   
+        // dd(auth()->user()->store()->exists());
         // $userStore = auth()->user()->store;
         $user = auth()->user();
+        // dd($user);
 
         // dd($userStore);
         if(!$user->store()->exists())
@@ -73,8 +75,13 @@ class ProductController extends Controller
         // dd($request->file('photos'));
         $data=$request->all();
         $categories = $request->get('categories', null);
-// dd($data['price']);
         $data['price'] = formatPriceToDatabase($data['price']);
+
+        /** ================================ */
+        // $data['slug'] = $data['name'];       
+        /** ================================ */
+
+        // dd($data['price']);
 
         // $store = \App\Store::find($data['store']); trocado pela associação abaixo
         /** estou acessando a loja do usuário autenticado */
@@ -164,7 +171,11 @@ class ProductController extends Controller
      */
     public function destroy($product)
     {
+        
         $product = $this->product->find($product);
+     
+        // dd($product);
+
         $product->delete();
 
         flash('Produto Removido com Sucesso!')->success();

@@ -1,6 +1,7 @@
 let cardNumber = document.querySelector('input[name=card_number]');
 let spanBrand  = document.querySelector('span.brand');
 
+
 cardNumber.addEventListener('keyup', function(){
     if(cardNumber.value.length >= 6) {
         PagSeguroDirectPayment.getBrand({

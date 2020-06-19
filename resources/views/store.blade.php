@@ -26,9 +26,9 @@
             <div class="col-md-4">
                 <div class="card" style="width: 97%;">
                     @if($product->photos->count())
-                        <img src="{{asset('storage/' . $product->photos->first()->image)}}" alt="card-img-top">
+                        <img src="{{asset('storage/' . $product->photos->first()->image)}}" alt="img-fluid" width=40% height=80%>
                     @else
-                        <img src="{{asset('assets/img/no-photo.jpg')}}" alt="card-img-top">
+                        <img src="{{asset('assets/img/no-photo.jpg')}}" alt="card-img-top"  width=40% height=80%>
                     @endif
                     <div class="card-body">
                         <h2 class="card-title">{{$product->name}}</h2>

@@ -65,7 +65,7 @@ class CheckoutController extends Controller
                 'items' => serialize($cartItems),
             ];
 
-            userOrder = $user->orders()->create($userOrder);
+            $userOrder = $user->orders()->create($userOrder);
 		    $userOrder->stores()->sync($stores);
 
 

@@ -69,7 +69,6 @@
     
 
     <script>
-        // Set-Cookie: promo_shown=1; Max-Age=2600000; Secure;
         const sessionId = "{{session()->get('pagseguro_session_code')}}";
         const urlThanks = '{{route('checkout.thanks')}}';
         const urlProccess = '{{route("checkout.proccess")}}';

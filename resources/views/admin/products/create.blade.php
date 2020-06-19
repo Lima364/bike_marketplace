@@ -54,7 +54,7 @@
 
 
         <div class="form-group">
-            <label>Preço</label>
+            <label>Preço - R$</label>
             <input type="text" name="price" id="price" class="form-control @error('price') is-invalid @enderror" value="{{old('price')}}">
 
             @error('price')
@@ -99,7 +99,9 @@
 @section('scripts')
     <script src="https://cdn.rawgit.com/plentz/jquery-maskmoney/master/dist/jquery.maskMoney.min.js"></script>
     <script>
-        $('#price').maskMoney({prefix: 'R$ ', allowNegative: false, thousands: '.', decimal: ','});
+       // $('#price').maskMoney({prefix: 'R$ ', allowNegative: false, thousands: '.', decimal: ','});
+    
+       $('#price').maskMoney({prefix: '', allowNegative: false, thousands: '.', decimal: ','});
     </script>
 @endsection
 

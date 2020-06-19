@@ -48,7 +48,7 @@ class StoreReceiveNewOrder extends Notification
                     ->subject('Novo pedido pra voce')
                     ->greeting('Olá, tudo bem?')
                     ->line('Voce recebeu um novo pedido na Loja!')
-                    ->action('Ver Pedido', route('admin.orders.my'))
+                    ->action('Ver Pedido', route('admin.orders.my'));
                     // ->line('Thank you for using our application!');
     }
 
@@ -70,7 +70,7 @@ class StoreReceiveNewOrder extends Notification
         return (new NexmoMessage)
                     ->content('Voce recebeu um novo pedido em nosso site.')
                     ->from('5511999415551')
-                    -unicode()
+                    ->unicode()
                     ;
                     
     }

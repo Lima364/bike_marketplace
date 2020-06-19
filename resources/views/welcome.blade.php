@@ -6,9 +6,9 @@
             <div class="col-md-4">
                 <div class="card" style="width: 97%;">
                     @if($product->photos->count())
-                        <img src="{{asset('storage/' . $product->photos->first()->image)}}" alt="card-img-top">
+                        <img src="{{asset('storage/' . $product->thumb)}}" alt="card-img-top" width=40% height=80%>
                     @else
-                        <img src="{{asset('assets/img/no-photo.jpg')}}" alt="card-img-top">
+                        <img src="{{asset('assets/img/semfoto1.jpg')}}" alt="card-img-top" width= 40% height= 80%>
                     @endif
                     
                     <div class="card-body">
@@ -30,11 +30,13 @@
             <hr>
         </div>
         @foreach ($stores as $store)
-        <div class="col-4">
+        <div class="col-md-4">
             @if($store->logo)
-                     <img src="{{asset('storage/' . $store->logo)}}" alt="Logo da Loja {{$store->name}}" class="img-fluid">
+                     <img src="{{asset('storage/' . $store->logo)}}" alt="Logo da Loja {{$store->name}}" class="img-fluid" width=100% height=auto>
                 @else
-                    <img src="https://via.placeholder.com/256X197.png?text=logo" alt="Loja sem logo........!! {{$store->name}}" class="img-fluid">
+                        <img src="{{asset('assets/img/semlogo1.jpg')}}" alt="card-img-top" width= 30% height= 60%>
+
+                    {{-- <img src="https://via.placeholder.com/256X197.png?text=logo" alt="Loja sem logo........!! {{$store->name}}" class="img-fluid" width=50% height=100%> --}}
             @endif
             <h3>{{$store->name}}</h3>
             <p>{{$store->description}}</p>

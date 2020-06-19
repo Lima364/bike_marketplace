@@ -78,6 +78,7 @@
     <script src="{{asset('js/app.js')}}"></script>
 
     {{-- <script src="https://code.jquery.com/jquery-2.2.4.min.js" ></script> --}}
+    
     @yield('scripts')
     
 
