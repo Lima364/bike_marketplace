@@ -21,9 +21,10 @@ class CheckoutController extends Controller
             return redirect()->route('login');
         }
 
-        if(!session()->has('cart')) return redirect()-route('home');
+        if(!session()->has('cart')) return redirect()->route('home');
 
         $this->makePagSeguroSession();
+
         // var_dump(session()->get('pagseguro_session_code'));
 
         // dd($this->makePagSeguroSession());
@@ -39,7 +40,7 @@ class CheckoutController extends Controller
         // dd($cartItems);
 
         return view('checkout', compact('cartItems'));
-        // print 'checkout';
+        print 'checkout';
     }
 
     public function proccess(Request $request)
@@ -55,15 +56,16 @@ class CheckoutController extends Controller
   
             $creditCardPayment = new CreditCard($cartItems, $user, $dataPost, $reference); 
             $result = $creditCardPayment->doPayment();
-            // var_dump($result);
+            var_dump($result);
             
             $userOrder = 
             [
-                'reference' =>$reference,
+                'reference' => $reference,
                 'pagseguro_code' => $result->getCode(),
                 'pagseguro_status' => $result->getStatus(),
                 'items' => serialize($cartItems),
             ];
+            // dd($userOrder);
 
             $userOrder = $user->orders()->create($userOrder);
 		    $userOrder->stores()->sync($stores);

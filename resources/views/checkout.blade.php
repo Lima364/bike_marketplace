@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <button class="btn btn-success btn-lg processCheckout" type="submit">Efetuar Pagamento</button>  
+            <button class="btn btn-success btn-block processCheckout" type="submit">Efetuar Pagamento</button>  
 
         </form>
 
@@ -70,8 +70,8 @@
 
     <script>
         const sessionId = "{{session()->get('pagseguro_session_code')}}";
-        const urlThanks = '{{route('checkout.thanks')}}';
-        const urlProccess = '{{route("checkout.proccess")}}';
+        const urlThanks = "{{route('checkout.thanks')}}";
+        const urlProccess = "{{route('checkout.proccess')}}";
         const amoutTransaction = '{{$cartItems}}';
         const csrf = '{{csrf_token()}}';
 

@@ -28,7 +28,7 @@
     <a class="navbar-brand" href="{{route('home')}}">Bike MarketPlace</a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon" ></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -48,16 +48,27 @@
         <div class="my-2 my-lg-0">
             <ul class="navbar-nav mr-auto">
                 @auth
-                    <li class="nav-item @if(request()->is('my-orders')) active @endif">
-                        <a href="{{route('user.orders')}}" class="nav-link">Meus Pedidos</a>
-                    </li>
+                {{-- @php var_dump($log) @endphp --}}
+                    @if(auth()->user()->role == 'ROLE_OWNER')
+                        <li class="nav-item @if(request()->is('my-orders')) active @endif">
+                            <a href="{{route('admin.stores.index')}}" class="nav-link">Admin</a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="event.preventDefault(); document.querySelector('form.logout').submit()" ;>Sair</a>
+
                         <form action="{{route('logout')}}" class="logout" method="POST" style="display:none; ">
                             @csrf
                         </form>
                     </li>
                 @endauth
+                <li class="nav-item @if(request()->is('/')) active @endif">
+                    <a class="nav-link" href="{{route('login')}}">Login<span class="sr-only">(current)</span></a>
+                </li>         
+                <li class="nav-item @if(request()->is('/')) active @endif">
+                    <a class="nav-link" href="{{route('register')}}">Registro <span class="sr-only">(current)</span></a>
+                </li>    
+         
                 <li class="nav-item">
                     <a href="{{route('cart.index')}}" class="nav-link">
                         @if (session()->has('cart'))

@@ -4,9 +4,9 @@
     <div class="row front">
         <div class="col-4">
             @if($store->logo)
-                <img src="{{asset('storage/' . $store->logo)}}" alt="Logo da Loja {{$store->name}}" class="img-fluid">
+                <img src="{{asset('storage/' . $store->logo)}}" alt="Logo da Loja {{$store->name}}" class="img-fluid" width=40% height=80%>
             @else
-            <img src="https://via.placeholder.com/256X197.png?text=logo" alt="Loja sem Logo...{{$store->name}}" class="img-fluid">
+            <img src="https://via.placeholder.com/256X197.png?text=logo" alt="Loja sem Logo...{{$store->name}}" class="img-fluid"  width=40% height=80%>
             @endif
         </div>
         <div class="col-8">

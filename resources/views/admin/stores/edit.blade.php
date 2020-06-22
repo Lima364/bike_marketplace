@@ -56,9 +56,9 @@
 
     <div class="form-group">
         <p>
-            <img src="{{asset('storage/' . $store->logo)}}" alt="">
+            <img src="{{asset('storage/' . $store->logo)}}" alt=""  width=40% height=80%>
         </p>
-        <label>Fotos do Produto</label>
+        <label>Foto do Logo</label>
         <input type="file" name="logo" class="form-control @error('logo') is-invalid @enderror">
         @error('logo')
             <div class="invalid-feedback">

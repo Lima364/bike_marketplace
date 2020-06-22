@@ -27,6 +27,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             @auth
+            @if(auth()->user()->role == 'ROLE_OWNER')
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item @if(request()->is('admin/orders*')) active @endif">
                     <a class="nav-link" href="{{route('admin.orders.my')}}">Meus Pedidos</a>
@@ -42,6 +43,7 @@
                     <a class="nav-link" href="{{route('admin.categories.index')}}">Categorias</a>
                 </li>
             </ul>
+            @endif
 
             <div class="my-2 my-lg-0">
                 <ul class="navbar-nav mr-auto">

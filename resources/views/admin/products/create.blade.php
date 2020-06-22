@@ -74,7 +74,7 @@
         </div>
 
         <div class="form-group">
-            <label>Fotos do Produto</label>
+            <label>Foto do Logo</label>
             <input type="file" name="photos[]"  class="form-control @error('photos.*') is-invalid @enderror" multiple>
             @error('photos')
                 <div class="invalid-feedback">

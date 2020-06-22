@@ -3,7 +3,8 @@ let spanBrand  = document.querySelector('span.brand');
 
 
 cardNumber.addEventListener('keyup', function(){
-    if(cardNumber.value.length >= 6) {
+    if(cardNumber.value.length >= 6) 
+    {
         PagSeguroDirectPayment.getBrand({
             cardBin: cardNumber.value.substr(0, 6),
             success: function(res) {
@@ -17,7 +18,7 @@ cardNumber.addEventListener('keyup', function(){
                 console.log(err);
             },
             complete: function(res) {
-                //console.log('Complete', res);
+                console.log('Complete', res);
             }
         });
     }
