@@ -16,31 +16,39 @@ class CheckoutController extends Controller
     public function index()
     {
         // session()->forget('pagseguro_session_code');
-        if(!auth()->check())
+        try
         {
-            return redirect()->route('login');
+            if(!auth()->check())
+            {
+                return redirect()->route('login');
+            }
+    
+            if(!session()->has('cart')) return redirect()->route('home');
+    
+            $this->makePagSeguroSession();
+    
+            // var_dump(session()->get('pagseguro_session_code'));
+    
+            // dd($this->makePagSeguroSession());
+    
+            // $total = 0
+            $cartItems = array_map(function($line)
+            {
+                return $line['amount'] * $line['price'];
+            }, session()->get('cart'));
+    
+            $cartItems = array_sum($cartItems);
+            
+            // dd($cartItems);
+    
+            return view('checkout', compact('cartItems'));
+            print 'checkout';
+        } 
+        catch (\Exception $e)
+        {
+            session()->forget('pagseguro_session_code');
+            redirect()-route('checkout.index');
         }
-
-        if(!session()->has('cart')) return redirect()->route('home');
-
-        $this->makePagSeguroSession();
-
-        // var_dump(session()->get('pagseguro_session_code'));
-
-        // dd($this->makePagSeguroSession());
-
-        // $total = 0
-        $cartItems = array_map(function($line)
-        {
-            return $line['amount'] * $line['price'];
-        }, session()->get('cart'));
-
-        $cartItems = array_sum($cartItems);
-        
-        // dd($cartItems);
-
-        return view('checkout', compact('cartItems'));
-        print 'checkout';
     }
 
     public function proccess(Request $request)
@@ -91,7 +99,7 @@ class CheckoutController extends Controller
             ]);
         } catch(\Exception $e)
         {
-            $message = env('APP_DEBUG') ? $e->getMessage() : 'Erro ao processar Pedido!';
+            $message = env('APP_DEBUG') ? simplexml_load_string( $e->getMessage()) : 'Erro ao processar Pedido!';
             return response()->json
             ([
                 'data'=> 

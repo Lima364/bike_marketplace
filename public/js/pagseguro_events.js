@@ -1,10 +1,8 @@
 let cardNumber = document.querySelector('input[name=card_number]');
 let spanBrand  = document.querySelector('span.brand');
 
-
 cardNumber.addEventListener('keyup', function(){
-    if(cardNumber.value.length >= 6) 
-    {
+    if(cardNumber.value.length >= 6) {
         PagSeguroDirectPayment.getBrand({
             cardBin: cardNumber.value.substr(0, 6),
             success: function(res) {
@@ -18,7 +16,7 @@ cardNumber.addEventListener('keyup', function(){
                 console.log(err);
             },
             complete: function(res) {
-                console.log('Complete', res);
+                //console.log('Complete', res);
             }
         });
     }
@@ -29,6 +27,10 @@ let submitButton = document.querySelector('button.processCheckout');
 
 submitButton.addEventListener('click', function(event){
     event.preventDefault();
+    document.querySelector('div.msg').innerHTML = '';
+    let buttonTarget = event.target;
+    buttonTarget.disabled = true;
+    buttonTarget.innerHTML = 'Carregando......!';
 
     PagSeguroDirectPayment.createCardToken({
         cardNumber: document.querySelector('input[name=card_number]').value,
@@ -37,7 +39,18 @@ submitButton.addEventListener('click', function(event){
         expirationMonth: document.querySelector('input[name=card_month]').value,
         expirationYear:  document.querySelector('input[name=card_year]').value,
         success: function(res) {
-            proccessPayment(res.card.token);
+            proccessPayment(res.card.token, buttonTarget);
+        },
+        error: function(err) {
+            // console.log(err.errors);
+            buttonTarget.disabled = false;
+            buttonTarget.innerHTML = 'Efetuar Pagamento';
+
+            for(let i in err.errors)
+            {
+                document.querySelector('div.msg').innerHTML = showErrorMessages(errorsMapPagseguroJS(i));
+                // console.log(i);
+            }
         }
     });
 });

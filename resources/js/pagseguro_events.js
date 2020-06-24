@@ -27,6 +27,10 @@ let submitButton = document.querySelector('button.processCheckout');
 
 submitButton.addEventListener('click', function(event){
     event.preventDefault();
+    document.querySelector('div.msg').innerHTML = '';
+    let buttonTarget = event.target;
+    buttonTarget.disabled = true;
+    buttonTarget.innerHTML = 'Carregando......!';
 
     PagSeguroDirectPayment.createCardToken({
         cardNumber: document.querySelector('input[name=card_number]').value,
@@ -35,7 +39,18 @@ submitButton.addEventListener('click', function(event){
         expirationMonth: document.querySelector('input[name=card_month]').value,
         expirationYear:  document.querySelector('input[name=card_year]').value,
         success: function(res) {
-            proccessPayment(res.card.token);
+            proccessPayment(res.card.token, buttonTarget);
+        },
+        error: function(err) {
+            // console.log(err.errors);
+            buttonTarget.disabled = false;
+            buttonTarget.innerHTML = 'Efetuar Pagamento';
+
+            for(let i in err.errors)
+            {
+                document.querySelector('div.msg').innerHTML = showErrorMessages(errorsMapPagseguroJS(i));
+                // console.log(i);
+            }
         }
     });
 });
