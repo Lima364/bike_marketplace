@@ -19,11 +19,13 @@ function proccessPayment(token, buttonTarget)
         },
         error: function(err)
         {
-            // console.log(JSON.parse(err.responseText));
+            // console.log(JSON.parse(err.responseText)); 
             buttonTarget.disabled = false;
             buttonTarget.innerHTML = 'Efetuar Pagamento';
             let message = JSON.parse(err.responseText);
-            documento.querySelector('div.msg').innerHTML = showErrorMessages(message.data.message.error.message)
+            document.querySelector('div.msg').innerHTML = showErrorMessages(message.data.message.error.message);
+            // document.querySelector('div.msg').innerHTML = errorsMapPagseguroJS(message.data.message.error.code); isto aqui é pra pegar o código do erro e tratar
+
         }
     });
 }
@@ -69,7 +71,8 @@ function showErrorMessages(message)
 
 function errorsMapPagseguroJS(code)
 {
-    switch(code) {
+    switch(code) 
+    {
         case "10000":
             return 'Bandeira do cartão inválida!';
         break;
@@ -93,6 +96,10 @@ function errorsMapPagseguroJS(code)
 
         case "10006":
             return 'Tamanho do código de segurança inválido!';
+        break;
+
+        case "53042":
+            return 'Nome completo do cartão é necessário!';
         break;
 
         default:

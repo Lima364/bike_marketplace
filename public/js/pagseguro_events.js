@@ -48,7 +48,9 @@ submitButton.addEventListener('click', function(event){
 
             for(let i in err.errors)
             {
+                
                 document.querySelector('div.msg').innerHTML = showErrorMessages(errorsMapPagseguroJS(i));
+
                 // console.log(i);
             }
         }

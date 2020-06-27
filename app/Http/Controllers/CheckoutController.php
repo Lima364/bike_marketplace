@@ -47,7 +47,7 @@ class CheckoutController extends Controller
         catch (\Exception $e)
         {
             session()->forget('pagseguro_session_code');
-            redirect()-route('checkout.index');
+            redirect()->route('checkout.index');
         }
     }
 
@@ -78,7 +78,6 @@ class CheckoutController extends Controller
             $userOrder = $user->orders()->create($userOrder);
 		    $userOrder->stores()->sync($stores);
 
-
             /** NOtificar Loja de novo pedido */
             $store = (new Store())->notifyStoreOwers($stores);
            
@@ -97,9 +96,9 @@ class CheckoutController extends Controller
                     'order' => $reference
                 ]
             ]);
-        } catch(\Exception $e)
+        } catch (\Exception $e)
         {
-            $message = env('APP_DEBUG') ? simplexml_load_string( $e->getMessage()) : 'Erro ao processar Pedido!';
+            $message = env('APP_DEBUG') ? simplexml_load_string($e->getMessage()) : 'Erro ao processar Pedido!';
             return response()->json
             ([
                 'data'=> 
