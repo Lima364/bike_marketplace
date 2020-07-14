@@ -64,7 +64,7 @@ class CheckoutController extends Controller
   
             $creditCardPayment = new CreditCard($cartItems, $user, $dataPost, $reference); 
             $result = $creditCardPayment->doPayment();
-            var_dump($result);
+            // var_dump($result);
             
             $userOrder = 
             [
@@ -160,35 +160,6 @@ class CheckoutController extends Controller
                     return session()->put('pagseguro_session_code', $sessionCode->getResult());
         }
     }
-
-    // public function notification()
-    // {
-    // 	try{
-	// 	    $notification = new Notification();
-	// 	    $notification = $notification->getTransaction();
-
-	// 		$reference = base64_decode($notification->getReference());
-
-	// 	    $userOrder = UserOrder::whereReference($reference);
-	// 	    $userOrder->update([
-	// 		    'pagseguro_status' => $notification->getStatus()
-	// 	    ]);
-
-	// 	    if($notification->getStatus() == 3) {
-	// 		    // Liberar o pedido do usuário..., atualizar o status do pedido para em separação
-	// 		    //Notificar o usuário que o pedido foi pago...
-	// 		    //Notificar a loja da confirmação do pedido...
-	// 	    }
-
-	// 	    return response()->json([], 204);
-
-	//     } catch (\Exception $e) {
-	// 		$message = env('APP_DEBUG') ? $e->getMessage() : '';
-
-	// 	    return response()->json(['error' => $message], 500);
-	//     }
-    // }
-
-
+   
 }
 
