@@ -117,7 +117,6 @@ class CartController extends Controller
 
         return $products;
     }
-                
 }
 
  // public function add(Request $request)

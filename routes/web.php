@@ -105,8 +105,8 @@ Route::get('/model', function ()
     
     $product = \App\Product::find(27);
     return $product->categories;
-
     // return \App\User::all();
+    
 });
 
         /* Route::prefix('stores')->name('stores.')->group(function(){
